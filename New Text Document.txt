@@ -1,0 +1,60 @@
+Common object req broker architecture is a standard defined by the object management grp that enables communication in distributed objects regardless of programming languages or platform . it allows client to invoke methods on remote objects using object req broker 
+
+
+Berkeley’s Algorithm is a clock synchronization technique used in distributed systems. The algorithm assumes that each machine node in the network either doesn’t have an accurate time source or doesn’t possess a UTC server.
+Algorithm 
+1) An individual node is chosen as the master node from a pool node in the network. This node is the main node in the network which acts as a master and the rest of the nodes act as slaves. The master node is chosen using an election process/leader election algorithm.
+2) Master node periodically pings slaves nodes and fetches clock time at them using Cristian’s algorithm.
+The diagram below illustrates how the master sends requests to slave nodes. 
+
+
+3) Master node calculates the average time difference between all the clock times received and the clock time given by the master’s system clock itself. This average time difference is added to the current time at the master’s system clock and broadcasted over the network.
+Centralized time coordinator: Berkeley’s Algorithm uses a centralized time coordinator, which is responsible for maintaining the global time and distributing it to all the client machines.
+
+Token :
+
+
+Token ring algorithm is a distributed mutual exclusion algo that uses a logical ring and a special message called a ""token"" circulates among them , it ensures that only the one node enters the critical section at a time and the node containing the token can send the data
+
+
+
+
+What is the Leader Election Algorithm?
+A crucial procedure in distributed systems is leader election, in which nodes (computers or processes) choose a leader from among themselves. Frequently, the group's leader takes on duties including decision-making, resource distribution, and coordination.
+
+The election algorithm is based on the following assumptions:
+
+Each process has a unique priority number.
+All processes in the system are fully connected.
+The process with the highest priority number will be elected as coordinator.
+Each process knows the process number of all other processes.
+
+
+During recovery, the failed process can take appropriate steps to resume the set of active processes.
+
+What is the Bully Algorithm for Leader Node Election?
+The Bully algorithm is a popular technique for choosing a leader in distributed networks that uses the greater priority concept. It operates as follows:
+
+Initiation: When a node detects that the current leader has failed (usually through a timeout mechanism), it initiates an election.
+Election Process:
+The initiating node sends an "election" message to all other nodes with higher priority.
+Nodes with higher priority respond by either acknowledging their current leader status or declaring themselves candidates.
+If no higher-priority node responds, the initiating node assumes leadership.
+Notification: The newly elected leader informs all nodes of its leadership status, ensuring consistency across the distributed system.The Bully Algorithm is a popular method for electing a coordinator in distributed systems. When nodes or processes in a system need a leader to manage tasks or make decisions, this algorithm helps them choose one, even if some nodes fail. The process involves nodes "bullying" each other by checking who has the highest ID, and the one with the highest ID becomes the coordinator.
+
+🔸 Ring Algorithm
+The Ring Algorithm organizes nodes in a logical ring, where each node knows only its immediate successor. The election process proceeds as follows:
+
+Initiation: A node detects the absence of a leader and starts an election by sending an Election message containing its ID to its successor.
+
+Message Propagation: Each node appends its ID to the message and forwards it to the next node.
+
+Completion: Once the message returns to the initiating node, it selects the node with the highest ID as the leader.
+
+
+This algorithm is efficient in terms of message complexity, requiring only one message to circulate the ring. However, it relies on a stable ring structure, and any disruption can delay or prevent leader election .
+
+✅ Use Cases
+Bully Algorithm: Suitable for systems where nodes are relatively stable, and leader election needs to be prompt and straightforward.
+
+Ring Algorithm: Ideal for systems with a fixed, cyclic topology, such as token ring networks, where message passing is efficient and predictable.
